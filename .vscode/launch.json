@@ -1,0 +1,49 @@
+{
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "Pleio: Stop + Start + Verify",
+      "configurations": [
+        "Pleio: Stop",
+        "Pleio: Start",
+        "Pleio: Verify"
+      ],
+      "stopAll": false
+    },
+    {
+      "name": "Pleio: Start + Verify",
+      "configurations": [
+        "Pleio: Start",
+        "Pleio: Verify"
+      ],
+      "stopAll": false
+    }
+  ],
+  "configurations": [
+    
+    {
+      "name": "Pleio: Start",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "powershell -ExecutionPolicy Bypass -File \"${workspaceFolder}\\pleio-local.ps1\" -Action start"
+    },
+    {
+      "name": "Pleio: Verify",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "powershell -ExecutionPolicy Bypass -File \"${workspaceFolder}\\pleio-local.ps1\" -Action verify"
+    },
+    {
+      "name": "Pleio: Logs",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "powershell -ExecutionPolicy Bypass -File \"${workspaceFolder}\\pleio-local.ps1\" -Action logs"
+    },
+    {
+      "name": "Pleio: Stop",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "powershell -ExecutionPolicy Bypass -File \"${workspaceFolder}\\pleio-local.ps1\" -Action stop"
+    }
+  ]
+}
