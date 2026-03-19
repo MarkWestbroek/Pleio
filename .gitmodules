@@ -1,0 +1,6 @@
+[submodule "backend2"]
+	path = backend2
+	url = https://codeberg.org/MarkWestbroek/Pleio-backend
+[submodule "frontend"]
+	path = frontend
+	url = https://codeberg.org/MarkWestbroek/Pleio-frontend
