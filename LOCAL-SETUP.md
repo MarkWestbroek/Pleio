@@ -18,6 +18,47 @@ docker compose up -d --build
 - Admin/control: http://localhost:8888
 - Tenant (na hosts entry): http://test1.pleio.local:8000
 
+## Dagstart morgen
+
+Gebruik normaal deze volgorde:
+
+1. Start Docker Desktop.
+2. Wacht tot Docker volledig klaar is.
+3. Start in VS Code de run/debug-config of taak:
+	- Pleio: Start + Verify
+4. Open daarna:
+	- http://localhost:8888
+	- http://test1.pleio.local:8000
+
+Praktisch:
+- Als de containers nog draaien: alleen Pleio: Verify.
+- Als Docker of de stack uit stond: Pleio: Start + Verify.
+- Als de site vreemd doet: eerst Pleio: Stop, daarna Pleio: Start + Verify.
+
+Opmerking over frontend assets:
+- Bij een gewone herstart hoort de site nu goed terug te komen.
+- Na een volledige reset of opnieuw opbouwen van volumes kan het nodig zijn de frontend build opnieuw in de runtime-map te zetten, zodat het Vite manifest weer beschikbaar is.
+
+## Als het weer misgaat
+
+Gebruik deze korte checklist:
+
+1. Draait Docker Desktop echt volledig?
+2. Draait de stack?
+	- Gebruik Pleio: Verify
+3. Werkt admin wel, maar tenant niet?
+	- Test http://localhost:8888
+	- Test http://test1.pleio.local:8000
+4. Witte pagina of kapotte widgets/custom pagina's?
+	- Doe een harde refresh in de browser met Ctrl+F5
+	- Herstart met Pleio: Stop en daarna Pleio: Start + Verify
+5. Login werkt vreemd?
+	- Ga naar /logout en daarna opnieuw naar /login
+	- In local hoort /login direct als admin in te loggen
+6. Nog steeds frontend-achtige fouten of GraphQL-mismatches?
+	- Grote kans dat de frontend assets of het manifest niet goed zijn geladen
+	- Controleer dan eerst of de recente frontend build opnieuw in de runtime-map moet worden gezet
+
 ## Dagelijkse commando's
 
 ## VS Code one-click taken
