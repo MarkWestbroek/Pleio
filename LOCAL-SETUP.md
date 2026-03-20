@@ -36,8 +36,9 @@ Praktisch:
 - Als de site vreemd doet: eerst Pleio: Stop, daarna Pleio: Start + Verify.
 
 Opmerking over frontend assets:
-- Bij een gewone herstart hoort de site nu goed terug te komen.
-- Na een volledige reset of opnieuw opbouwen van volumes kan het nodig zijn de frontend build opnieuw in de runtime-map te zetten, zodat het Vite manifest weer beschikbaar is.
+- De `frontend` Docker-container is **uitgeschakeld** (niet meer in `COMPOSE_PROFILES`). Die container overschreef bij elke start de runtime-assets met een externe image die niet aansluit op de lokale backend.
+- Gebruik altijd de lokale Vite dev server (zie "Frontend lokaal met Vite" hieronder). Dat is de enige correcte frontend-bron zolang je lokaal ontwikkelt.
+- `FRONTEND_LIVE_RELOAD=True` staat in `.env`, zodat de backend-templates rechtstreeks naar `http://localhost:9001` wijzen in plaats van statische bundles te laden.
 
 ## Als het weer misgaat
 
@@ -56,8 +57,9 @@ Gebruik deze korte checklist:
 	- Ga naar /logout en daarna opnieuw naar /login
 	- In local hoort /login direct als admin in te loggen
 6. Nog steeds frontend-achtige fouten of GraphQL-mismatches?
-	- Grote kans dat de frontend assets of het manifest niet goed zijn geladen
-	- Controleer dan eerst of de recente frontend build opnieuw in de runtime-map moet worden gezet
+	- Draait de lokale Vite dev server (`corepack yarn dev` in `D:/Git/Pleio/frontend`)?
+	- Controleer dat `FRONTEND_LIVE_RELOAD=True` en `COMPOSE_PROFILES=base,admin` in `backend2/.env` staan.
+	- De frontend Docker-container is uitgeschakeld; die was de oorzaak van versie-mismatches.
 
 ## Dagelijkse commando's
 
@@ -158,9 +160,9 @@ C:/Windows/System32/drivers/etc/hosts
 127.0.0.1 test1.pleio.local
 ```
 
-## Frontend lokaal met Vite (optioneel)
+## Frontend lokaal met Vite (vereist voor ontwikkeling)
 
-Backend kan al draaien met de container-frontend. Wil je Vite lokaal:
+De frontend Docker-container is uitgeschakeld. Start altijd de lokale Vite dev server:
 
 1. Configureer frontend token volgens frontend README (.npmrc met tiptap token).
 2. Installeer dependencies in D:/Git/Pleio/frontend.

@@ -99,6 +99,31 @@
         "reset"
       ],
       "problemMatcher": []
+    },
+    {
+      "label": "Pleio: Frontend (Vite dev server)",
+      "type": "shell",
+      "command": "corepack yarn dev",
+      "options": {
+        "cwd": "${workspaceFolder}\\frontend"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "vite",
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "VITE",
+          "endsPattern": "Local:"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "label": "Vite"
+      }
     }
   ]
 }
