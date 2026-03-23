@@ -18,6 +18,49 @@ docker compose up -d --build
 - Admin/control: http://localhost:8888
 - Tenant (na hosts entry): http://test1.pleio.local:8000
 
+## Dagstart morgen
+
+Gebruik normaal deze volgorde:
+
+1. Start Docker Desktop.
+2. Wacht tot Docker volledig klaar is.
+3. Start in VS Code de run/debug-config of taak:
+	- Pleio: Start + Verify
+4. Open daarna:
+	- http://localhost:8888
+	- http://test1.pleio.local:8000
+
+Praktisch:
+- Als de containers nog draaien: alleen Pleio: Verify.
+- Als Docker of de stack uit stond: Pleio: Start + Verify.
+- Als de site vreemd doet: eerst Pleio: Stop, daarna Pleio: Start + Verify.
+
+Opmerking over frontend assets:
+- De `frontend` Docker-container is **uitgeschakeld** (niet meer in `COMPOSE_PROFILES`). Die container overschreef bij elke start de runtime-assets met een externe image die niet aansluit op de lokale backend.
+- Gebruik altijd de lokale Vite dev server (zie "Frontend lokaal met Vite" hieronder). Dat is de enige correcte frontend-bron zolang je lokaal ontwikkelt.
+- `FRONTEND_LIVE_RELOAD=True` staat in `.env`, zodat de backend-templates rechtstreeks naar `http://localhost:9001` wijzen in plaats van statische bundles te laden.
+
+## Als het weer misgaat
+
+Gebruik deze korte checklist:
+
+1. Draait Docker Desktop echt volledig?
+2. Draait de stack?
+	- Gebruik Pleio: Verify
+3. Werkt admin wel, maar tenant niet?
+	- Test http://localhost:8888
+	- Test http://test1.pleio.local:8000
+4. Witte pagina of kapotte widgets/custom pagina's?
+	- Doe een harde refresh in de browser met Ctrl+F5
+	- Herstart met Pleio: Stop en daarna Pleio: Start + Verify
+5. Login werkt vreemd?
+	- Ga naar /logout en daarna opnieuw naar /login
+	- In local hoort /login direct als admin in te loggen
+6. Nog steeds frontend-achtige fouten of GraphQL-mismatches?
+	- Draait de lokale Vite dev server (`corepack yarn dev` in `D:/Git/Pleio/frontend`)?
+	- Controleer dat `FRONTEND_LIVE_RELOAD=True` en `COMPOSE_PROFILES=base,admin` in `backend2/.env` staan.
+	- De frontend Docker-container is uitgeschakeld; die was de oorzaak van versie-mismatches.
+
 ## Dagelijkse commando's
 
 ## VS Code one-click taken
@@ -117,9 +160,9 @@ C:/Windows/System32/drivers/etc/hosts
 127.0.0.1 test1.pleio.local
 ```
 
-## Frontend lokaal met Vite (optioneel)
+## Frontend lokaal met Vite (vereist voor ontwikkeling)
 
-Backend kan al draaien met de container-frontend. Wil je Vite lokaal:
+De frontend Docker-container is uitgeschakeld. Start altijd de lokale Vite dev server:
 
 1. Configureer frontend token volgens frontend README (.npmrc met tiptap token).
 2. Installeer dependencies in D:/Git/Pleio/frontend.
